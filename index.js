@@ -20,7 +20,6 @@ const getUser = (userId) => {
 };
 
 io.on('connection', (socket) => {
-	console.log('user connected', socket.id);
 	io.emit('welcome', 'this is socket server');
 
 	socket.on('addUser', (userId) => {
@@ -36,8 +35,6 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('disconnect', () => {
-		console.log('disconnected', socket.id);
 		removeUser(socket.id);
-		// io.emit('getUsers', users);
 	});
 });
