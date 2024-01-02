@@ -24,17 +24,23 @@ io.on('connection', (socket) => {
 
 	socket.on('addUser', (userId) => {
 		addUser(userId, socket.id);
+		console.log(users);
 	});
 
 	socket.on('sendMessage', (message) => {
 		const user = getUser(message.receiver?._id);
+		console.log('message received');
 
 		if (user) {
-			io.to(user?.socketId).emit('messageReceived', message);
+			io.to(user?.socketId).emit('messageReceived', {
+				chatId: message.chat?._id,
+				message,
+			});
 		}
 	});
 
 	socket.on('disconnect', () => {
 		removeUser(socket.id);
+		console.log('removed', users);
 	});
 });
